@@ -6,18 +6,20 @@ This project demonstrates how a trained machine-learning model can be integrated
 
 ## Architecture
 
+```text
 Client
-  |
-  | POST /predict
-  v
+   |
+   | POST /predict
+   v
 FastAPI REST API
-  |
-  | Validate Input
-  v
+   |
+   | Validate Input
+   v
 Persisted ML Model
-  |
-  v
+   |
+   v
 Prediction + Confidence
+```
 
 ## Technology Stack
 
@@ -42,58 +44,76 @@ The trained model is persisted as `model.joblib` and loaded by the FastAPI infer
 
 ### Health Check
 
-GET /health
+`GET /health`
 
 Example response:
 
+```json
 {
   "status": "healthy"
 }
+```
 
 ### Prediction
 
-POST /predict
+`POST /predict`
 
 Request:
 
+```json
 {
   "features": [5.1, 3.5, 1.4, 0.2]
 }
+```
 
 Example response:
 
+```json
 {
   "prediction": 0,
   "confidence": 0.9847
 }
+```
 
 ## Running Locally
 
 Create a virtual environment:
 
-    python -m venv .venv
+```bash
+python -m venv .venv
+```
 
-Activate the environment and install dependencies:
+Install dependencies:
 
-    pip install -r requirements.txt
+```bash
+pip install -r requirements.txt
+```
 
 Train the model:
 
-    python train_model.py
+```bash
+python train_model.py
+```
 
 Start the API:
 
-    uvicorn app.main:app --reload
+```bash
+uvicorn app.main:app --reload
+```
 
 Open the interactive API documentation:
 
-    http://127.0.0.1:8000/docs
+```text
+http://127.0.0.1:8000/docs
+```
 
 ## Testing
 
 Run the automated tests:
 
-    pytest
+```bash
+pytest
+```
 
 The tests cover:
 
@@ -105,15 +125,21 @@ The tests cover:
 
 Build the container:
 
-    docker build -t ml-inference-api .
+```bash
+docker build -t ml-inference-api .
+```
 
 Run the container:
 
-    docker run --rm -p 8000:8000 ml-inference-api
+```bash
+docker run --rm -p 8000:8000 ml-inference-api
+```
 
 Open the API documentation:
 
-    http://localhost:8000/docs
+```text
+http://localhost:8000/docs
+```
 
 ## Continuous Integration
 
