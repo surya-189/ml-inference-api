@@ -2,24 +2,19 @@
 
 A lightweight machine-learning inference service built with Python, FastAPI and scikit-learn.
 
-This project demonstrates how a trained machine-learning model can be integrated into a REST-based inference service, including input validation, health monitoring, automated testing, containerisation and continuous integration.
+This project demonstrates how a trained machine-learning model can be integrated into a REST-based inference service, including input validation, health checks, automated testing, containerisation and continuous integration.
 
 ## Architecture
 
-```text
-Client
-   |
-   | POST /predict
-   v
-FastAPI REST API
-   |
-   | Validate Input
-   v
-Persisted ML Model
-   |
-   v
-Prediction + Confidence
-```
+Client  
+↓  
+**FastAPI REST API**  
+↓  
+**Input Validation**  
+↓  
+**Persisted Machine-Learning Model**  
+↓  
+**Prediction + Confidence**
 
 ## Technology Stack
 
@@ -44,9 +39,11 @@ The trained model is persisted as `model.joblib` and loaded by the FastAPI infer
 
 ### Health Check
 
+**Endpoint**
+
 `GET /health`
 
-Example response:
+**Example response**
 
 ```json
 {
@@ -56,9 +53,11 @@ Example response:
 
 ### Prediction
 
+**Endpoint**
+
 `POST /predict`
 
-Request:
+**Request**
 
 ```json
 {
@@ -66,7 +65,7 @@ Request:
 }
 ```
 
-Example response:
+**Example response**
 
 ```json
 {
@@ -77,35 +76,37 @@ Example response:
 
 ## Running Locally
 
-Create a virtual environment:
+### 1. Create a virtual environment
 
 ```bash
 python -m venv .venv
 ```
 
-Install dependencies:
+### 2. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Train the model:
+### 3. Train the model
 
 ```bash
 python train_model.py
 ```
 
-Start the API:
+### 4. Start the API
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-Open the interactive API documentation:
+### 5. Open the API documentation
 
-```text
-http://127.0.0.1:8000/docs
-```
+Open:
+
+`http://127.0.0.1:8000/docs`
+
+FastAPI provides interactive Swagger documentation for testing the API endpoints.
 
 ## Testing
 
@@ -123,41 +124,44 @@ The tests cover:
 
 ## Docker
 
-Build the container:
+### Build the container
 
 ```bash
 docker build -t ml-inference-api .
 ```
 
-Run the container:
+### Run the container
 
 ```bash
 docker run --rm -p 8000:8000 ml-inference-api
 ```
 
-Open the API documentation:
+### Open the API documentation
 
-```text
-http://localhost:8000/docs
-```
+Open:
+
+`http://localhost:8000/docs`
 
 ## Continuous Integration
 
-GitHub Actions automatically:
+GitHub Actions automatically performs the following steps:
 
 1. Checks out the source code
-2. Sets up Python
-3. Installs dependencies
-4. Runs automated tests
+2. Sets up Python 3.12
+3. Installs project dependencies
+4. Runs the automated test suite
 5. Builds the Docker image
+
+This provides a basic CI validation pipeline for the inference service.
 
 ## Production Considerations
 
-For a production ML inference platform, the service could be extended with:
+For a production ML inference platform, this service could be extended with:
 
 - Model registry and version management
+- Model version tracking
 - Authentication and authorisation
-- Structured logging
+- Structured application logging
 - Metrics and observability
 - Model performance monitoring
 - Data and model drift detection
@@ -167,8 +171,53 @@ For a production ML inference platform, the service could be extended with:
 - Secure secret management
 - Model rollback and controlled releases
 
+These are identified as potential production enhancements and are not claimed as implemented features of this demonstration project.
+
 ## Project Scope
 
-This is a deliberately small demonstration project designed to demonstrate ML model integration and inference engineering.
+This is a deliberately small demonstration project designed to demonstrate the engineering pattern of integrating a machine-learning model into an inference service.
+
+The project demonstrates:
+
+- Machine-learning model training
+- Model persistence
+- REST API-based inference
+- Input validation
+- Prediction confidence
+- Automated testing
+- Docker containerisation
+- Continuous integration
 
 The Iris dataset and model are used to demonstrate the engineering pattern rather than represent a production mission workload.
+
+## Repository Structure
+
+```text
+ml-inference-api/
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
+├── app/
+│   ├── __init__.py
+│   └── main.py
+│
+├── tests/
+│   └── test_api.py
+│
+├── .dockerignore
+├── .gitignore
+├── Dockerfile
+├── model.joblib
+├── pytest.ini
+├── requirements.txt
+├── train_model.py
+└── README.md
+```
+
+## Summary
+
+This project demonstrates an end-to-end machine-learning inference pattern using Python, FastAPI and scikit-learn.
+
+The trained model is exposed through a REST API, validated through automated tests, packaged as a Docker container and validated through GitHub Actions CI.
